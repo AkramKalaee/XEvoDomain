@@ -72,19 +72,19 @@ The process is **incremental**. Knowledge obtained from previously generated tes
 
 XEvoDomain uses white-box information from the autonomous driving system to identify execution paths that contain substantial interaction with the environment.
 
-A critical execution path represents a sequence of program interactions that can expose important aspects of system behavior during simulation.
+A **critical execution path** represents a sequence of program interactions through which the system responds to its environment. Such paths are particularly valuable for testing because different environmental conditions can lead to different outcomes even when they exercise the same internal execution path.
 
 <p align="center">
-  <img src="docs/images/critical-execution-path.png" width="800" alt="Abstract representation of a critical execution path">
+  <img src="docs/images/critical-execution-path.png" width="800" alt="Critical execution path and dynamic-object crossing scenarios">
   <br>
-  <em>Abstract representation of a critical execution path containing multiple I/O interactions with the autonomous driving system and its simulation environment.</em>
+  <em>Two dynamic-object crossing scenarios that produce different outcomes while covering the same execution path in the CARLA simulator. Colored nodes indicate branch points in different system components, while green and red edges represent True and False branches, respectively.</em>
 </p>
 
-The selected critical paths become behavioral test requirements for the evolutionary search.
+The selected critical paths become **behavioral test requirements** for the evolutionary search. XEvoDomain then searches for input conditions that exercise these paths while exposing differences and undesirable behaviors in the system.
 
 ### A Concrete Example from the Source Code
 
-The following example illustrates how a critical execution path can be identified from the source code and its control-flow structure.
+The following example illustrates how a critical execution path can be analyzed from the source code and its control-flow structure.
 
 <p align="center">
   <img src="docs/images/cruise-control-cfg.png" width="750" alt="Cruise control function and control-flow graph">
@@ -105,7 +105,7 @@ The experiments use predefined roads and dynamic-object scenarios to expose the 
 <p align="center">
   <img src="docs/images/carla-critical-scenario.png" width="800" alt="CARLA testing scenario">
   <br>
-  <em>Example CARLA testing scenario: (a) Town5 map with the selected road segment and (b) a dynamic-object crossing scenario.</em>
+  <em>Example CARLA environment used in the experiments: (a) Town5 map with a selected road segment and (b) a dynamic-object crossing scenario.</em>
 </p>
 
 ---
