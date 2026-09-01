@@ -20,11 +20,11 @@ XEvoDomain was developed for simulation-based testing of autonomous driving syst
 
 ### 1. Behavior-Oriented Test Requirements
 
-XEvoDomain identifies test requirements based on **critical execution paths**. Paths involving more interactions with the environment are considered more critical because they expose a larger portion of the system's behavior.
+XEvoDomain identifies test requirements based on **critical execution paths**. Paths involving substantial interaction with the environment provide targeted requirements for system-level behavioral testing.
 
 ### 2. Critical-Path Boundary Coverage
 
-The framework introduces a boundary-oriented criterion to measure how effectively generated tests explore the input domain associated with a target critical path.
+The framework introduces a boundary-oriented criterion to assess how effectively generated tests explore the input domain associated with a target critical execution path.
 
 ### 3. Learning-Guided Multi-Objective Search
 
@@ -32,11 +32,11 @@ XEvoDomain combines behavioral-region learning with **NSGA-II** to progressively
 
 ### 4. White-Box Behavioral Guidance
 
-Instead of relying only on observable input/output behavior, XEvoDomain exploits internal execution information, including critical execution paths, to provide more precise search guidance.
+Rather than relying only on observable input/output behavior, XEvoDomain exploits internal execution information, including critical execution paths, to provide more targeted search guidance.
 
 ### 5. Ensemble Rule Learning
 
-Multiple rule-learning models are used to characterize behavioral regions and guide subsequent exploration, providing broader behavioral exploration than relying on a single model.
+The framework uses multiple rule-learning models to characterize behavioral regions and support subsequent search iterations.
 
 ---
 
@@ -64,7 +64,7 @@ Failure Characterization
     Rule Extraction
 ```
 
-The process is **incremental**. Knowledge obtained from previously generated tests is incorporated into subsequent search iterations, progressively directing the search toward critical behavioral regions.
+The process is **incremental**: knowledge obtained from previously generated tests is incorporated into subsequent search iterations, progressively directing the search toward critical behavioral regions.
 
 ---
 
@@ -72,7 +72,7 @@ The process is **incremental**. Knowledge obtained from previously generated tes
 
 XEvoDomain uses white-box information from the autonomous driving system to identify execution paths that contain substantial interaction with the environment.
 
-A **critical execution path** represents a sequence of program interactions through which the system responds to its environment. Such paths are particularly valuable for testing because different environmental conditions can lead to different outcomes even when they exercise the same internal execution path.
+A **critical execution path** represents a sequence of program interactions through which the system responds to its environment. Different environmental conditions may produce different outcomes even when they exercise the same internal execution path.
 
 <p align="center">
   <img src="docs/images/critical-execution-path.png" width="800" alt="Critical execution path and dynamic-object crossing scenarios">
@@ -80,7 +80,7 @@ A **critical execution path** represents a sequence of program interactions thro
   <em>Two dynamic-object crossing scenarios that produce different outcomes while covering the same execution path in the CARLA simulator. Colored nodes indicate branch points in different system components, while green and red edges represent True and False branches, respectively.</em>
 </p>
 
-The selected critical paths become **behavioral test requirements** for the evolutionary search. XEvoDomain then searches for input conditions that exercise these paths while exposing differences and undesirable behaviors in the system.
+The selected critical paths become **behavioral test requirements** for the evolutionary search. XEvoDomain searches for input conditions that exercise these paths while exposing differences and undesirable behaviors in the system.
 
 ### A Concrete Example from the Source Code
 
@@ -89,10 +89,10 @@ The following example illustrates how a critical execution path can be analyzed 
 <p align="center">
   <img src="docs/images/cruise-control-cfg.png" width="750" alt="Cruise control function and control-flow graph">
   <br>
-  <em>Concrete example of critical-path analysis based on the control-flow graph of the <code>cruise_control</code> function.</em>
+  <em>Example of critical-path analysis based on the control-flow graph of the <code>cruise_control</code> function.</em>
 </p>
 
-This connection between **source-code structure, execution paths, and environmental interactions** provides the white-box guidance used by XEvoDomain during test generation.
+This connection between **source-code structure, execution paths, and environmental interactions** provides the white-box guidance used during test generation.
 
 ---
 
@@ -103,9 +103,9 @@ XEvoDomain uses the **CARLA simulator** to execute generated test scenarios and 
 The experiments use predefined roads and dynamic-object scenarios to expose the system to different environmental conditions.
 
 <p align="center">
-  <img src="docs/images/carla-critical-scenario.png" width="800" alt="CARLA testing scenario">
+  <img src="docs/images/carla-critical-scenario.png" width="800" alt="CARLA testing environment">
   <br>
-  <em>Example CARLA environment used in the experiments: (a) Town5 map with a selected road segment and (b) a dynamic-object crossing scenario.</em>
+  <em>Example experimental environment in CARLA: (a) Town5 map with a selected road segment and (b) a dynamic-object crossing scenario.</em>
 </p>
 
 ---
@@ -117,12 +117,12 @@ For each target critical path, XEvoDomain searches for input conditions that exe
 The input domain associated with a target path partitions the search space and provides a behavior-oriented target for test generation.
 
 <p align="center">
-  <img src="docs/images/search-space-partitioning.png" width="700" alt="Search-space partitioning">
+  <img src="docs/images/search-space-partitioning.png" width="700" alt="Search-space partitioning based on a target critical path">
   <br>
   <em>Illustration of search-space partitioning according to the input domain of a target critical path.</em>
 </p>
 
-The evolutionary search considers multiple objectives to guide the generation of effective test scenarios, including proximity to undesirable behavior, critical-path exploration, and behavioral diversity.
+The evolutionary search considers multiple objectives to generate effective test scenarios, including proximity to undesirable behavior, critical-path exploration, and behavioral diversity.
 
 ---
 
@@ -130,9 +130,9 @@ The evolutionary search considers multiple objectives to guide the generation of
 
 The failure pattern of a decision-making component can be complex and difficult to describe explicitly.
 
-XEvoDomain therefore uses machine-learning models to identify behavioral regions during the testing process.
+XEvoDomain therefore uses machine-learning models to identify **behavioral regions** during the testing process.
 
-A **behavioral region** represents a set of input conditions associated with a particular system behavior.
+A behavioral region represents a set of input conditions associated with a particular system behavior.
 
 The search proceeds iteratively:
 
@@ -158,7 +158,7 @@ After the learning-guided search, the accumulated test data is used to extract i
   <em>Illustration of behavioral-rule extraction from the accumulated test data.</em>
 </p>
 
-These rules provide an interpretable description of the conditions under which particular behaviors occur and can be used to characterize critical or failure-prone regions.
+The extracted rules provide an interpretable description of the conditions associated with particular system behaviors and can be used to characterize critical or failure-prone regions.
 
 ---
 
@@ -166,7 +166,7 @@ These rules provide an interpretable description of the conditions under which p
 
 XEvoDomain was evaluated on an autonomous driving system with a rule-based decision-making component using the CARLA simulator.
 
-The experimental evaluation investigates:
+The evaluation considers:
 
 * **Behavioral-region identification**
 * **Failure detection**
@@ -180,7 +180,7 @@ The experimental evaluation investigates:
 The effectiveness of selected test-generation approaches was compared in identifying behavioral regions.
 
 <p align="center">
-  <img src="docs/images/behavioral-region-comparison.png" width="800" alt="Behavioral-region identification comparison">
+  <img src="docs/images/behavioral-region-comparison.png" width="800" alt="Comparison of behavioral-region identification approaches">
   <br>
   <em>Comparison of selected approaches in identifying behavioral regions.</em>
 </p>
@@ -190,25 +190,25 @@ The effectiveness of selected test-generation approaches was compared in identif
 The experiments also evaluate how effectively different approaches identify boundaries between behavioral regions.
 
 <p align="center">
-  <img src="docs/images/behavioral-boundaries-comparison.png" width="800" alt="Behavioral boundary comparison">
+  <img src="docs/images/behavioral-boundaries-comparison.png" width="800" alt="Comparison of behavioral boundaries">
   <br>
   <em>Examples of behavioral boundaries generated by BBT, XEvoDomain (Ensemble), and XEvoDomain (DT) for the CARLA system.</em>
 </p>
 
-The parallel-coordinate plots illustrate the normalized input variables associated with the identified behavioral boundaries.
+The parallel-coordinate plots show the normalized input variables associated with the identified behavioral boundaries.
 
 ---
 
 ## 🔎 Research Findings
 
-The experimental results indicate that incorporating **white-box information** into test generation can improve the search for behavioral regions compared with approaches relying only on black-box information.
+The experimental results demonstrate the value of incorporating **white-box information** into system-level test generation.
 
-The experiments show that:
+The evaluation indicates that:
 
 * Critical execution paths provide targeted guidance for behavioral exploration.
-* Learning behavioral regions during the search improves exploration of critical areas.
+* Learning behavioral regions during the search supports exploration of critical areas.
 * Ensemble rule learning can provide broader behavioral exploration than a single rule-learning model.
-* XEvoDomain achieves stronger performance than the evaluated baseline approaches in behavioral-region identification and boundary detection.
+* XEvoDomain outperforms the evaluated baseline approaches on several behavioral-region and boundary-related measures.
 * The behavioral rules identified by XEvoDomain are consistent with those obtained by the evaluated black-box approach while benefiting from additional internal execution information.
 
 ---
@@ -224,7 +224,7 @@ The original implementation was developed and evaluated using:
 * **CARLA:** 0.9.9
 * **Scenario Runner:** 0.9.8
 
-> The repository reflects the environment used for the original experiments. Newer versions of CARLA, Python, or Scenario Runner may require compatibility adjustments.
+> The repository reflects the environment used for the original experiments. Newer versions of Python, CARLA, or Scenario Runner may require compatibility adjustments.
 
 ### 1. Install CARLA
 
@@ -267,13 +267,11 @@ pip install -r requirements.txt
 
 Make sure the CARLA simulator is running before starting the framework.
 
-From the repository root:
+From the repository root, run:
 
 ```bash
 python scenario-runner/explorer.py
 ```
-
-> **Note:** Verify the actual entry-point filename and directory in the repository before publishing this README. The original user manual referred to the script as `explorer.py`; the repository should use the current filename and path.
 
 ---
 
@@ -334,7 +332,7 @@ The exact output location depends on the configuration used for the experiment.
 
 ### CARLA Does Not Start or Connect
 
-Make sure:
+Make sure that:
 
 * CARLA 0.9.9 is running.
 * The correct CARLA server instance is being used.
@@ -364,16 +362,16 @@ Mixing incompatible versions can result in import errors or simulator-connection
 
 ## 📚 Additional Experimental Material
 
-Additional figures and tables from the experimental study are provided in the [`docs/`](docs/) directory.
+Additional experimental figures and tables are provided in the [`docs/`](docs/) directory.
 
 These materials include:
 
-* Comparison of selected approaches for behavioral-region identification
-* Extracted rules for critical behavioral regions
 * Selected critical execution paths
 * Repeated I/O calls along critical paths
+* Behavioral-region comparisons
+* Extracted rules for critical behavioral regions
 * Distribution of boundary scenario pairs
-* Comparison of boundary-detection effectiveness
+* Boundary-detection comparisons
 
 ---
 
@@ -395,7 +393,7 @@ The dissertation contains additional technical details, mathematical formulation
 
 A research article describing XEvoDomain is currently under preparation.
 
-If you use this artifact in your research, please refer to the associated Ph.D. research and repository information.
+If you use this artifact in your research, please refer to the repository and the associated Ph.D. research.
 
 ---
 
